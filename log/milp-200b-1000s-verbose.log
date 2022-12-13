@@ -1,0 +1,36 @@
+300 1e+100
+
+Gurobi 10.0.0 (linux64, C++) logging started Mon Dec 12 21:33:23 2022
+
+Set parameter Username
+Set parameter TimeLimit to value 1000
+Set parameter LogFile to value "./log/milp-200b-1000s-verbose.log"
+Academic license - for non-commercial use only - expires 2023-12-06
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i9-12900, instruction set [SSE2|AVX|AVX2]
+Thread count: 24 physical cores, 24 logical processors, using up to 24 threads
+
+Optimize a model with 80400 rows, 40401 columns and 395800 nonzeros
+Model fingerprint: 0x6c39ed3d
+Variable types: 0 continuous, 40401 integer (40000 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 3e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 6e+03]
+Presolve removed 409 rows and 9 columns
+Presolve time: 0.24s
+Presolved: 79991 rows, 40392 columns, 395391 nonzeros
+Variable types: 0 continuous, 40392 integer (39991 binary)
+
+Deterministic concurrent LP optimizer: primal and dual simplex (primal and dual model)
+Showing first log only...
+
+Root relaxation presolved: 79991 rows, 40392 columns, 395391 nonzeros
+
+Concurrent spin time: 0.25s
+
+Solved with primal simplex (primal model)
+
+Root relaxation: objective 3.900000e+01, 14467 iterations, 0.53 seconds (0.63 work units)

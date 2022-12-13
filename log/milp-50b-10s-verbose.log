@@ -1,0 +1,80 @@
+
+Gurobi 10.0.0 (linux64, C++) logging started Mon Dec 12 20:10:58 2022
+
+Set parameter Username
+Set parameter TimeLimit to value 10
+Set parameter LogFile to value "./log/floorplan-milp-10.log"
+Academic license - for non-commercial use only - expires 2023-12-06
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i9-12900, instruction set [SSE2|AVX|AVX2]
+Thread count: 24 physical cores, 24 logical processors, using up to 24 threads
+
+Optimize a model with 5100 rows, 2601 columns and 24450 nonzeros
+Model fingerprint: 0x1bb5ba75
+Variable types: 0 continuous, 2601 integer (2500 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 8e+02]
+Presolve removed 104 rows and 4 columns
+Presolve time: 0.01s
+Presolved: 4996 rows, 2597 columns, 24346 nonzeros
+Variable types: 0 continuous, 2597 integer (2496 binary)
+
+Root relaxation: objective 2.300000e+01, 1002 iterations, 0.01 seconds (0.03 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   23.00000    0   50          -   23.00000      -     -    0s
+H    0     0                      88.0000000   23.00000  73.9%     -    0s
+H    0     0                      64.0000000   23.00000  64.1%     -    0s
+     0     0   23.00000    0  188   64.00000   23.00000  64.1%     -    0s
+H    0     0                      63.0000000   23.00000  63.5%     -    0s
+     0     0   23.00000    0  253   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   70   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   72   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   47   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   76   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   58   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0  136   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   57   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0  100   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   48   63.00000   23.00000  63.5%     -    0s
+     0     0   23.00000    0   38   63.00000   23.00000  63.5%     -    0s
+     0     2   23.00000    0   33   63.00000   23.00000  63.5%     -    1s
+H  113   123                      61.0000000   23.00000  62.3%  66.9    1s
+H 2231  2592                      60.0000000   23.00000  61.7%  32.1    2s
+H 3602  2895                      59.0000000   23.00000  61.0%  24.1    3s
+H 5347  3617                      58.0000000   23.00000  60.3%  22.1    3s
+H 5432  3703                      57.0000000   23.00000  59.6%  21.9    3s
+H 6023  3843                      56.0000000   23.00000  58.9%  22.2    3s
+H 6332  3153                      53.0000000   23.00000  56.6%  22.1    3s
+H 6334  2971                      52.0000000   23.00000  55.8%  22.1    4s
+H 6337  2824                      51.0000000   23.00000  54.9%  22.1    4s
+H 6339  2684                      50.0000000   23.00000  54.0%  22.1    4s
+  6344  2687   43.00000   57   64   50.00000   23.00000  54.0%  22.1    5s
+H 6345  2553                      49.0000000   23.00000  53.1%  22.1    5s
+H 6353  2430                      48.0000000   23.00000  52.1%  22.0    6s
+H 6459  2402                      47.0000000   23.00000  51.1%  26.5    8s
+ 10602  5332   36.00000   78  157   47.00000   23.00000  51.1%  23.5   10s
+
+Cutting planes:
+  Gomory: 18
+  Cover: 1
+  Implied bound: 1
+  MIR: 3
+  StrongCG: 3
+  Flow cover: 61
+  RLT: 5
+  Relax-and-lift: 2
+
+Explored 10972 nodes (271058 simplex iterations) in 10.01 seconds (13.31 work units)
+Thread count was 24 (of 24 available processors)
+
+Solution count 10: 47 48 49 ... 58
+
+Time limit reached
+Best objective 4.700000000000e+01, best bound 2.300000000000e+01, gap 51.0638%
