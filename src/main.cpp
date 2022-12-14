@@ -93,8 +93,7 @@ int main(int argc, char *argv[]) {
         else {
             cout << "[WARNING] Shelf sub-algorithm and sorting type not specified. Using default sub-algorithm NEXT-FIT, and no sorting." << endl;
         }
-        switch (sorting)
-        {
+        switch (sorting) {
         case 0: break;
         case 1: // Sort By Area
             for (int i = 0; i < numBlocks; i++)
@@ -167,6 +166,8 @@ int main(int argc, char *argv[]) {
             break;
         }
         break;
+    // -----------------------------------------------------------------
+    case 2: break;
     // -----------------------------------------------------------------
     default:
         exit(1);

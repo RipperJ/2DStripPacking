@@ -141,6 +141,17 @@ void ShelfFloorplan::bin_shelf_first_fit_floorplanning(vector<int>& w, vector<in
     for (int i : indices) {
         bool found = false;
         size_t j = 0;
+        if (guillotine) {
+            pair<Rectangle, int> rect_rotate = gspace.AddBlock(w[i], h[i], gh);
+            Rectangle rect = rect_rotate.first;
+            int rotate = rect_rotate.second;
+            if (rect.h != 0) {
+                x[i] = rect.x;
+                y[i] = rect.y;
+                r[i] = rotate;
+                continue;   // already found a solution during guillotine floorplanning
+            }
+        }
         for (; j < shelves.size(); j++) {
             if (BlockFitInShelf(shelves[j], w[i], h[i])) {
                 found = true;
@@ -148,12 +159,19 @@ void ShelfFloorplan::bin_shelf_first_fit_floorplanning(vector<int>& w, vector<in
             }
         }
         if (found == false) {
+            if (guillotine) GuillotineShelf(shelves.back());
             newShelf(min(w[i], h[i]));
         }
         BlockAssignToShelf(shelves[j], w[i], h[i], i);
     }
     
-    string logfile = "./log/shelfFF-" + to_string(numBlocks) + "b-" + sorting_type + ".log";
+    string logfile = "./log/shelfFF-" + to_string(numBlocks) + "b-" + sorting_type;
+    if (guillotine) {
+        logfile += "-guillotine-";
+        logfile += gspace.enum_to_string(gh);
+    }
+    logfile += ".log";
+    cout << "log name: " << logfile << endl;
     generate_log(logfile, w, h, curr_Y + shelves.back().shelf_H);
 }
 
@@ -163,6 +181,17 @@ void ShelfFloorplan::bin_shelf_best_width_fit_floorplanning(vector<int>& w, vect
         int best_j = -1;
         int width_left = 0x7FFFFFFF;
         int w_ = w[i], h_ = h[i];
+        if (guillotine) {
+            pair<Rectangle, int> rect_rotate = gspace.AddBlock(w_, h_, gh);
+            Rectangle rect = rect_rotate.first;
+            int rotate = rect_rotate.second;
+            if (rect.h != 0) {
+                x[i] = rect.x;
+                y[i] = rect.y;
+                r[i] = rotate;
+                continue;   // already found a solution during guillotine floorplanning
+            }
+        }
         for (size_t j = 0; j < shelves.size(); j++) {
             BlockRotateOnShelf(shelves[j], w_, h_, i);
             if (BlockFitInShelf(shelves[j], w_, h_)) {
@@ -173,13 +202,20 @@ void ShelfFloorplan::bin_shelf_best_width_fit_floorplanning(vector<int>& w, vect
             }
         }
         if (best_j == -1) {
+            if (guillotine) GuillotineShelf(shelves.back());
             best_j = shelves.size();
             newShelf(min(w_, h_));
         }
         BlockAssignToShelf(shelves[(size_t)best_j], w_, h_, i);
     }
     
-    string logfile = "./log/shelfBWF-" + to_string(numBlocks) + "b-" + sorting_type + ".log";
+    string logfile = "./log/shelfBWF-" + to_string(numBlocks) + "b-" + sorting_type;
+    if (guillotine) {
+        logfile += "-guillotine-";
+        logfile += gspace.enum_to_string(gh);
+    }
+    logfile += ".log";
+    cout << "log name: " << logfile << endl;
     generate_log(logfile, w, h, curr_Y + shelves.back().shelf_H);
 }
 
@@ -189,6 +225,17 @@ void ShelfFloorplan::bin_shelf_best_height_fit_floorplanning(vector<int>& w, vec
         int best_j = -1;
         int height_left = 0x7FFFFFFF;
         int w_ = w[i], h_ = h[i];
+        if (guillotine) {
+            pair<Rectangle, int> rect_rotate = gspace.AddBlock(w_, h_, gh);
+            Rectangle rect = rect_rotate.first;
+            int rotate = rect_rotate.second;
+            if (rect.h != 0) {
+                x[i] = rect.x;
+                y[i] = rect.y;
+                r[i] = rotate;
+                continue;   // already found a solution during guillotine floorplanning
+            }
+        }
         for (size_t j = 0; j < shelves.size(); j++) {
             BlockRotateOnShelf(shelves[j], w_, h_, i);
             if (BlockFitInShelf(shelves[j], w_, h_)) {
@@ -200,13 +247,20 @@ void ShelfFloorplan::bin_shelf_best_height_fit_floorplanning(vector<int>& w, vec
             }
         }
         if (best_j == -1) {
+            if (guillotine) GuillotineShelf(shelves.back());
             best_j = shelves.size();
             newShelf(min(w_, h_));
         }
         BlockAssignToShelf(shelves[(size_t)best_j], w_, h_, i);
     }
     
-    string logfile = "./log/shelfBHF-" + to_string(numBlocks) + "b-" + sorting_type + ".log";
+    string logfile = "./log/shelfBHF-" + to_string(numBlocks) + "b-" + sorting_type;
+    if (guillotine) {
+        logfile += "-guillotine-";
+        logfile += gspace.enum_to_string(gh);
+    }
+    logfile += ".log";
+    cout << "log name: " << logfile << endl;
     generate_log(logfile, w, h, curr_Y + shelves.back().shelf_H);
 }
 
