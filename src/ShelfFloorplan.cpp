@@ -52,6 +52,16 @@ void ShelfFloorplan::BlockAssignToShelf(Shelf& shelf, int w, int h, int i) {
     BlockRotateOnShelf(shelf, w, h, i);
     x[i] = shelf.curr_X;
     y[i] = shelf.curr_Y;
+
+    // For guillotine
+    Rectangle rect {
+        .x = shelf.curr_X,
+        .y = shelf.curr_Y,
+        .w = w,
+        .h = h
+    };
+    shelf.existing_blocks.push_back(rect);
+
     shelf.curr_X += w;
     assert(shelf.curr_X <= chipwidth);
     shelf.shelf_H = max(shelf.shelf_H, h);
@@ -97,14 +107,32 @@ void ShelfFloorplan::bin_shelf_next_fit_floorplanning(vector<int>& w, vector<int
         curr_X += width;
         shelf_H = max(shelf_H, height);
         */
+        if (guillotine) {
+            pair<Rectangle, int> rect_rotate = gspace.AddBlock(w[i], h[i], gh);
+            Rectangle rect = rect_rotate.first;
+            int rotate = rect_rotate.second;
+            if (rect.h != 0) {
+                x[i] = rect.x;
+                y[i] = rect.y;
+                r[i] = rotate;
+                continue;   // already found a solution during guillotine floorplanning
+            }
+        }
         if (!BlockFitInShelf(shelves.back(), w[i], h[i])) {
             // cout << "current shelf_H: " << shelves.back().shelf_H << endl;
+            if (guillotine) GuillotineShelf(shelves.back());
             newShelf(min(w[i], h[i]));
         }
         BlockAssignToShelf(shelves.back(), w[i], h[i], i);
     }
     
-    string logfile = "./log/shelfNF-" + to_string(numBlocks) + "b-" + sorting_type + ".log";
+    string logfile = "./log/shelfNF-" + to_string(numBlocks) + "b-" + sorting_type;
+    if (guillotine) {
+        logfile += "-guillotine-";
+        logfile += gspace.enum_to_string(gh);
+    }
+    logfile += ".log";
+    cout << "log name: " << logfile << endl;
     generate_log(logfile, w, h, curr_Y + shelves.back().shelf_H);
 }
 
@@ -196,4 +224,28 @@ void ShelfFloorplan::generate_log(string& logfile, vector<int>& w, vector<int>& 
         cout << i << " : " << x[i] << " " << y[i] << " " << r[i] << endl;
         log_verbose << i << " : " << x[i] << " " << y[i] << " " << w[i] << " " << h[i] << " " << r[i] << endl;
     }
+}
+
+void ShelfFloorplan::GuillotineShelf(Shelf& shelf) {
+    vector<Rectangle>& free_rects = gspace.GetFreeRects();
+    for (size_t i = 0; i < shelf.existing_blocks.size(); i++) {
+        const Rectangle& old_rect = shelf.existing_blocks[i];
+        Rectangle rect = {
+            .x = old_rect.x,
+            .y = old_rect.y + old_rect.h,
+            .w = old_rect.w,
+            .h = shelf.shelf_H - old_rect.h
+        };
+        if (rect.h > 0) free_rects.push_back(rect);
+    }
+    shelf.existing_blocks.clear();
+    Rectangle rect = {
+        .x = shelf.curr_X,
+        .y = shelf.curr_Y,
+        .w = chipwidth - shelf.curr_X,
+        .h = shelf.shelf_H
+    };
+    if (rect.w > 0) free_rects.push_back(rect);
+    shelf.curr_X = chipwidth;
+    gspace.MergeFreeRects();
 }

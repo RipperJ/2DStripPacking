@@ -7,6 +7,7 @@
 #include "Floorplan.h"
 #include "MILPFloorplan.h"
 #include "ShelfFloorplan.h"
+#include "GuillotineFloorplan.h"
 #include "utils.h"
 
 using namespace std;
@@ -14,7 +15,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     if (argc < 4) {
-        cout << "[ERROR] Input format should be `<exe> <testcase>`, e.g., `./floorplan 10.txt`.";
+        cout << "[ERROR] Input format should be `<exe> <testcase> <algorithm> <sub-algorithm/time-limit> <sorting>`, e.g., `./floorplan 10.txt 0 7000`, or `.floorplan 10.txt 1 0 1`.";
         return 1;
     }
     ifstream testcase(argv[1]);
@@ -133,14 +134,33 @@ int main(int argc, char *argv[]) {
             }
             shelf_fp.set_sorting_type("perimeter");
             break;
+        case 5: // Sort By side difference
+            for (int i = 0; i < numBlocks; i++)
+                vp_one.push_back(make_pair(i, abs(w[i] - h[i])));
+            sort(vp_one.begin(), vp_one.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_one[i].first;
+            }
+            shelf_fp.set_sorting_type("side-diff-descend");
+            break;
         default: break;
         }
+        // Guillotine type (if any)
         switch (sub_type)
         {
-        case 0: shelf_fp.bin_shelf_next_fit_floorplanning(w, h, indices); break;
-        case 1: shelf_fp.bin_shelf_first_fit_floorplanning(w, h, indices); break;
-        case 2: shelf_fp.bin_shelf_best_width_fit_floorplanning(w, h, indices); break;
-        case 3: shelf_fp.bin_shelf_best_height_fit_floorplanning(w, h, indices); break;
+        case 4: case 5: case 6: case 7: shelf_fp.set_guillotine(true, GuillotineFloorplan::RectBestAreaFit); break;
+        case 8: case 9: case 10: case 11: shelf_fp.set_guillotine(true, GuillotineFloorplan::RectBestShortSideFit); break;
+        case 12: case 13: case 14: case 15: shelf_fp.set_guillotine(true, GuillotineFloorplan::RectBestLongSideFit); break;        
+        default:
+            break;
+        }
+
+        switch (sub_type)
+        {
+        case 0: case 4: case 8: case 12: shelf_fp.bin_shelf_next_fit_floorplanning(w, h, indices); break;
+        case 1: case 5: case 9: case 13: shelf_fp.bin_shelf_first_fit_floorplanning(w, h, indices); break;
+        case 2: case 6: case 10: case 14: shelf_fp.bin_shelf_best_width_fit_floorplanning(w, h, indices); break;
+        case 3: case 7: case 11: case 15: shelf_fp.bin_shelf_best_height_fit_floorplanning(w, h, indices); break;
         default:
             cout << "[WARNING] Shelf Wrong sub-algorithm value. Using default sub-algorithm NEXT-FIT." << endl;
             shelf_fp.bin_shelf_next_fit_floorplanning(w, h, indices);

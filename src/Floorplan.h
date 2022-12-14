@@ -5,6 +5,13 @@
 
 using namespace std;
 
+struct Rectangle {
+    int x;
+    int y;
+    int w;
+    int h;
+};
+
 class Floorplan {
 protected:
     int chipwidth;
