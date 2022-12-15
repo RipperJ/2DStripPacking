@@ -12,15 +12,15 @@
 using namespace std;
 #define stringify(name) # name
 
-struct Shelf {
-    int curr_X;
-    int curr_Y;
-    int shelf_H;
-    vector<Rectangle> existing_blocks;
-};
 
 class ShelfFloorplan : public Floorplan {
 private:
+    struct Shelf {
+        int curr_X;
+        int curr_Y;
+        int shelf_H;
+        vector<Rectangle> existing_blocks;
+    };
     int curr_X;
     int curr_Y;
     int shelf_H;    // For single shelf, e.g., in next-fit algorithm

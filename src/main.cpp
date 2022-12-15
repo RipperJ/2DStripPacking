@@ -8,6 +8,7 @@
 #include "MILPFloorplan.h"
 #include "ShelfFloorplan.h"
 #include "GuillotineFloorplan.h"
+#include "SkylineFloorplan.h"
 #include "utils.h"
 
 using namespace std;
@@ -63,6 +64,7 @@ int main(int argc, char *argv[]) {
     }
     MILPFloorplan milp_fp(chipwidth, numBlocks, MAX_H);
     ShelfFloorplan shelf_fp(chipwidth, numBlocks, MAX_H);
+    SkylineFloorplan skyline_fp(chipwidth, numBlocks, MAX_H);
     
     switch (algorithm_type) {
     case 0: // MILP Floorplanning
@@ -142,7 +144,7 @@ int main(int argc, char *argv[]) {
             }
             shelf_fp.set_sorting_type("side-diff-descend");
             break;
-        default: break;
+        default: exit(1); break;
         }
         // Guillotine type (if any)
         switch (sub_type)
@@ -167,7 +169,92 @@ int main(int argc, char *argv[]) {
         }
         break;
     // -----------------------------------------------------------------
-    case 2: break;
+    case 2: // Skyline Floorplanning
+        if (argc > 3) {
+            _argv_3 = argv[3];
+            if (all_num(_argv_3)) sub_type = stoi(_argv_3);
+            else cout << "[WARNING] Skyline the 3rd parameter is not an integer. Using default sub-algorithm NEXT-FIT." << endl;
+            if (argc > 4) {
+                _argv_4 = argv[4];
+                if (all_num(_argv_4)) sorting = stoi(_argv_4);
+                else cout << "[WARNING] Skyline the 4th parameter is not an integer. Using default no sorting." << endl;
+            } else {
+                cout << "[WARNING] Skyline sorting type not specified. Using default no sorting." << endl;
+            }
+        } 
+        else {
+            cout << "[WARNING] Skyline sub-algorithm and sorting type not specified. Using default sub-algorithm NEXT-FIT, and no sorting." << endl;
+        }
+        switch (sorting) {
+        case 0: break;
+        case 1: // Sort By Area
+            for (int i = 0; i < numBlocks; i++)
+                vp_one.push_back(make_pair(i, w[i] * h[i]));
+            sort(vp_one.begin(), vp_one.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_one[i].first;
+            }
+            skyline_fp.set_sorting_type("area");
+            break;
+        case 2: // Sort by shorter first, longer second
+            for (int i = 0; i < numBlocks; i++)
+                vp_two.push_back(make_pair(i, make_pair(min(w[i], h[i]), max(w[i], h[i]))));
+            sort(vp_two.begin(), vp_two.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_two[i].first;
+                // cout << "short: " << vp_two[i].second.first << ", long: " << vp_two[i].second.second << ", index: " << indices[i] << endl;
+            }
+            skyline_fp.set_sorting_type("short-long");
+            break;
+        case 3: // Sort by longer first, shorter second
+            for (int i = 0; i < numBlocks; i++)
+                vp_two.push_back(make_pair(i, make_pair(max(w[i], h[i]), min(w[i], h[i]))));
+            sort(vp_two.begin(), vp_two.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_two[i].first;
+                // cout << "long: " << vp_two[i].second.first << ", short: " << vp_two[i].second.second << ", index: " << indices[i] << endl;
+            }
+            skyline_fp.set_sorting_type("long-short");
+            break;
+        case 4: // Sort By Perimeter
+            for (int i = 0; i < numBlocks; i++)
+                vp_one.push_back(make_pair(i, w[i] + h[i]));
+            sort(vp_one.begin(), vp_one.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_one[i].first;
+            }
+            skyline_fp.set_sorting_type("perimeter");
+            break;
+        case 5: // Sort By side difference
+            for (int i = 0; i < numBlocks; i++)
+                vp_one.push_back(make_pair(i, abs(w[i] - h[i])));
+            sort(vp_one.begin(), vp_one.end(), sort_descend());
+            for (int i = 0; i < numBlocks; i++) {
+                indices[i] = vp_one[i].first;
+            }
+            skyline_fp.set_sorting_type("side-diff-descend");
+            break;
+        default: exit(1); break;
+        }
+        
+        // Guillotine type (if any)
+        switch (sub_type)
+        {
+        case 2: case 3: skyline_fp.set_guillotine(true, GuillotineFloorplan::RectBestAreaFit); break;
+        default:
+            break;
+        }
+
+        switch (sub_type)
+        {
+        case 0: case 2: skyline_fp.floorplan(w, h, indices, SkylineFloorplan::BottomLeft); break;
+        case 1: case 3: skyline_fp.floorplan(w, h, indices, SkylineFloorplan::MinWasteFit); break;
+        default:
+            cout << "[WARNING] Skyline Wrong sub-algorithm value. Using default sub-algorithm BottomLeft." << endl;
+            skyline_fp.floorplan(w, h, indices, SkylineFloorplan::BottomLeft);
+            break;
+        }
+        break;
     // -----------------------------------------------------------------
     default:
         exit(1);
