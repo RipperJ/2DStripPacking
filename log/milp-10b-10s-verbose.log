@@ -1,5 +1,5 @@
 
-Gurobi 10.0.0 (linux64, C++) logging started Wed Dec 14 15:59:12 2022
+Gurobi 10.0.0 (linux64, C++) logging started Tue Dec 20 16:18:34 2022
 
 Set parameter Username
 Set parameter TimeLimit to value 10
@@ -56,7 +56,137 @@ Cutting planes:
   Zero half: 2
   RLT: 2
 
-Explored 1 nodes (778 simplex iterations) in 0.04 seconds (0.01 work units)
+Explored 1 nodes (778 simplex iterations) in 0.07 seconds (0.01 work units)
+Thread count was 24 (of 24 available processors)
+
+Solution count 7: 16 17 18 ... 57
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.600000000000e+01, best bound 1.600000000000e+01, gap 0.0000%
+
+Gurobi 10.0.0 (linux64, C++) logging started Tue Dec 20 16:23:54 2022
+
+Set parameter Username
+Set parameter TimeLimit to value 10
+Set parameter LogFile to value "./log/milp-10b-10s-verbose.log"
+Academic license - for non-commercial use only - expires 2023-12-06
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i9-12900, instruction set [SSE2|AVX|AVX2]
+Thread count: 24 physical cores, 24 logical processors, using up to 24 threads
+
+Optimize a model with 220 rows, 121 columns and 970 nonzeros
+Model fingerprint: 0xf7b2bd95
+Variable types: 0 continuous, 121 integer (100 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 57.0000000
+Presolve removed 20 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 200 rows, 121 columns, 950 nonzeros
+Variable types: 0 continuous, 121 integer (100 binary)
+
+Root relaxation: objective 1.200000e+01, 45 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   12.00000    0    1   57.00000   12.00000  78.9%     -    0s
+H    0     0                      23.0000000   12.00000  47.8%     -    0s
+     0     0   12.00000    0    1   23.00000   12.00000  47.8%     -    0s
+H    0     0                      21.0000000   12.00000  42.9%     -    0s
+H    0     0                      19.0000000   12.00000  36.8%     -    0s
+     0     0   12.00000    0    8   19.00000   12.00000  36.8%     -    0s
+H    0     0                      18.0000000   12.00000  33.3%     -    0s
+     0     0   12.00000    0    9   18.00000   12.00000  33.3%     -    0s
+     0     0   12.00000    0   12   18.00000   12.00000  33.3%     -    0s
+H    0     0                      17.0000000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   12   17.00000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   13   17.00000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   12   17.00000   12.00000  29.4%     -    0s
+H    0     0                      16.0000000   12.00000  25.0%     -    0s
+     0     0   12.00000    0   12   16.00000   12.00000  25.0%     -    0s
+     0     0   16.00000    0    5   16.00000   16.00000  0.00%     -    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 8
+  Implied bound: 2
+  MIR: 16
+  StrongCG: 1
+  Zero half: 2
+  RLT: 2
+
+Explored 1 nodes (778 simplex iterations) in 0.09 seconds (0.01 work units)
+Thread count was 24 (of 24 available processors)
+
+Solution count 7: 16 17 18 ... 57
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.600000000000e+01, best bound 1.600000000000e+01, gap 0.0000%
+
+Gurobi 10.0.0 (linux64, C++) logging started Tue Dec 20 16:24:28 2022
+
+Set parameter Username
+Set parameter TimeLimit to value 10
+Set parameter LogFile to value "./log/milp-10b-10s-verbose.log"
+Academic license - for non-commercial use only - expires 2023-12-06
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i9-12900, instruction set [SSE2|AVX|AVX2]
+Thread count: 24 physical cores, 24 logical processors, using up to 24 threads
+
+Optimize a model with 220 rows, 121 columns and 970 nonzeros
+Model fingerprint: 0xf7b2bd95
+Variable types: 0 continuous, 121 integer (100 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 57.0000000
+Presolve removed 20 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 200 rows, 121 columns, 950 nonzeros
+Variable types: 0 continuous, 121 integer (100 binary)
+
+Root relaxation: objective 1.200000e+01, 45 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   12.00000    0    1   57.00000   12.00000  78.9%     -    0s
+H    0     0                      23.0000000   12.00000  47.8%     -    0s
+     0     0   12.00000    0    1   23.00000   12.00000  47.8%     -    0s
+H    0     0                      21.0000000   12.00000  42.9%     -    0s
+H    0     0                      19.0000000   12.00000  36.8%     -    0s
+     0     0   12.00000    0    8   19.00000   12.00000  36.8%     -    0s
+H    0     0                      18.0000000   12.00000  33.3%     -    0s
+     0     0   12.00000    0    9   18.00000   12.00000  33.3%     -    0s
+     0     0   12.00000    0   12   18.00000   12.00000  33.3%     -    0s
+H    0     0                      17.0000000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   12   17.00000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   13   17.00000   12.00000  29.4%     -    0s
+     0     0   12.00000    0   12   17.00000   12.00000  29.4%     -    0s
+H    0     0                      16.0000000   12.00000  25.0%     -    0s
+     0     0   12.00000    0   12   16.00000   12.00000  25.0%     -    0s
+     0     0   16.00000    0    5   16.00000   16.00000  0.00%     -    0s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 1
+  Cover: 8
+  Implied bound: 2
+  MIR: 16
+  StrongCG: 1
+  Zero half: 2
+  RLT: 2
+
+Explored 1 nodes (778 simplex iterations) in 0.02 seconds (0.01 work units)
 Thread count was 24 (of 24 available processors)
 
 Solution count 7: 16 17 18 ... 57

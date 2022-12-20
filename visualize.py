@@ -10,7 +10,7 @@ if __name__ == "__main__":
         print("Wrong format!")
         exit(1)
     elif not os.path.exists(sys.argv[1]):
-        print("Verbose log file does not exist!")
+        print("Log file does not exist!")
         exit(1)
     with open(sys.argv[1], "r") as log_f:
         W, H = [int(_) for _ in log_f.readline().split()]
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     ax.set_ylim([0, H])
     plt.xlim([0, W])
     plt.ylim([0, H])
-    plt.title("Floorplan for {} blocks".format(len(log)))
+    # plt.title("Floorplan for {} blocks".format(len(log)))
+    plt.title(sys.argv[1][:-4] + ": H = {}".format(H))
     fig.savefig("floorplan.png")
     print("Area util = {:.4f}".format(area / W / H))

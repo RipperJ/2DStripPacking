@@ -15,17 +15,19 @@ void SkylineFloorplan::floorplan(vector<int>& w, vector<int>& h, vector<int>& in
             Rectangle rect;
             int rotate;
             // ------------- guillotine -------------
-            rect_rotate = gspace.AddBlock(w_, h_, gh);
-            rect = rect_rotate.first;
-            rotate = rect_rotate.second;
-            if (rect.h != 0) {
-                // x[i] = rect.x;
-                // y[i] = rect.y;
-                // r[i] = rotate;
-                outer_best_rect = rect;
-                outer_best_rotate = rotate;
-                outer_best_rect_i = i;
-                break;   // already found a solution during guillotine floorplanning
+            if (guillotine) {
+                rect_rotate = gspace.AddBlock(w_, h_, gh);
+                rect = rect_rotate.first;
+                rotate = rect_rotate.second;
+                if (rect.h != 0) {
+                    // x[i] = rect.x;
+                    // y[i] = rect.y;
+                    // r[i] = rotate;
+                    outer_best_rect = rect;
+                    outer_best_rotate = rotate;
+                    outer_best_rect_i = i;
+                    break;   // already found a solution during guillotine floorplanning
+                }
             }
             // ------------- guillotine -------------
             int inner_best_score1 = 0x7FFFFFFF, inner_best_score2 = 0x7FFFFFFF, inner_best_skyline_i = -1;
@@ -52,6 +54,9 @@ void SkylineFloorplan::floorplan(vector<int>& w, vector<int>& h, vector<int>& in
         assert(outer_best_rect_i != -1);
         if (outer_best_skyline_i != -1)
             newSkyline(outer_best_skyline_i, outer_best_rect);
+            // cout << "iter = " << iter << endl;
+            // cout << "len(skylines) = " << skylines.size() << endl;
+            // cout << "x = " << skylines.back().x << ", y = " << skylines.back().y << ", w = " << skylines.back().w << endl;
         // Assign the block with best index
         x[outer_best_rect_i] = outer_best_rect.x;
         y[outer_best_rect_i] = outer_best_rect.y;
