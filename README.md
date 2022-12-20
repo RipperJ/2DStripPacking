@@ -1,4 +1,10 @@
-# 2DFloorplanningAlgorithms
+# 2DStripPacking
+
+## Introduction
+
+This is one part of the course assignment for [HKUST-GZ MICS 6000I Physical Design Automation of Digital Systems](https://yuzhe630.github.io/teaching/2022-fall.html). This project is alive, maintained by <linfeng.du@connect.ust.hk>. Any discussion or suggestion would be greatly appreciated!
+
+In this repo, the shelf floorplanning and skyline floorplanning methods are implemented, together with an optional optimization with the Guillotine algorithm.
 
 ## Environment
 * System Checking
